@@ -1,5 +1,5 @@
 import PropTypes from 'prop-types';
-import Page from './Page';
+import Page from '../components/Page';
 
 export default function App({ Component, pageProps }) {
   return (
