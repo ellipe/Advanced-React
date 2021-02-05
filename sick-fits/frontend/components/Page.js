@@ -42,6 +42,7 @@ const GlobalStyles = createGlobalStyle`
 
   a:hover {
     text-decoration: underline;
+    text-decoration-color: var(--red)
   }
 
   button {
