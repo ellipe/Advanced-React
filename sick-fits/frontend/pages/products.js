@@ -1,7 +1,5 @@
-export default function Products() {
-  return (
-    <>
-      <p>Products</p>
-    </>
-  );
+import Products from '../components/Products';
+
+export default function ProductsPage() {
+  return <Products />;
 }
