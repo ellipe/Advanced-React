@@ -34,7 +34,7 @@ const NavStyles = styled.ul`
       bottom: 0;
     }
     &:after {
-      height: 2px;
+      height: 4px;
       background: red;
       content: '';
       width: 0;
@@ -43,11 +43,12 @@ const NavStyles = styled.ul`
       transition: width 0.4s;
       transition-timing-function: cubic-bezier(1, -0.65, 0, 2.31);
       left: 50%;
-      margin-top: 2rem;
+      margin-top: 2.5rem;
     }
     &:hover,
     &:focus {
       outline: none;
+      text-decoration: none;
       &:after {
         width: calc(100% - 60px);
       }
