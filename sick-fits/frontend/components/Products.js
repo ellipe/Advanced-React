@@ -27,9 +27,9 @@ const ProductListStyles = styled.div`
 
 export default function Products() {
   const { data, error, loading } = useQuery(ALL_PRODUCTS_QUERY);
-  console.log(data, error, loading);
   if (loading) return <div>Loading...</div>;
   if (error) return <div>Errors: {error.message}</div>;
+
   return (
     <div>
       <ProductListStyles>
