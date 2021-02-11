@@ -2,17 +2,18 @@ import { useState, useEffect } from 'react';
 
 export default function useForm(initialState = {}) {
   const [inputs, setInputs] = useState(initialState);
+  const initialValues = Object.values(initialState).join(''); // this is needed to avoid an infinite loop.
 
   useEffect(() => {
     setInputs(initialState);
-  }, [initialState]);
+  }, [initialValues]);
 
   const handleChange = (e) => {
     let { name, value, type } = e.target;
 
     switch (type) {
       case 'number':
-        value = parseFloat(value);
+        value = value && value >= 0 ? parseFloat(value) : 0;
         break;
       case 'file':
         [value] = e.target.files;

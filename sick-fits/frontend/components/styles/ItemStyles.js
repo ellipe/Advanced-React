@@ -7,6 +7,7 @@ const ItemStyles = styled.div`
   position: relative;
   display: flex;
   flex-direction: column;
+  justify-content: space-between;
   img {
     width: 100%;
     height: 400px;
@@ -28,8 +29,9 @@ const ItemStyles = styled.div`
     background: var(--lightGray);
     & > * {
       background: white;
-      border: 0;
-      font-size: 1rem;
+      /* This is not allowing me to set border in a button */
+      /* border: 0; */
+      font-size: 1.2rem;
       padding: 1rem;
     }
   }
