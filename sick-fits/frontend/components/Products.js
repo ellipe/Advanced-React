@@ -40,9 +40,11 @@ export default function Products({ page }) {
   return (
     <div>
       <ProductListStyles>
-        {data.allProducts.map((product) => (
-          <Product key={product.id} product={product} />
-        ))}
+        {data &&
+          data.allProducts &&
+          data.allProducts.map((product) => (
+            <Product key={product.id} product={product} />
+          ))}
       </ProductListStyles>
     </div>
   );
