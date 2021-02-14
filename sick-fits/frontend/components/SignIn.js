@@ -1,4 +1,3 @@
-import PropTypes from 'prop-types';
 import { useMutation } from '@apollo/client';
 import { useRouter } from 'next/router';
 import useForm from '../lib/useForm';
@@ -72,7 +71,5 @@ function SignIn() {
     </Form>
   );
 }
-
-SignIn.propTypes = {};
 
 export default SignIn;

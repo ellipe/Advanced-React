@@ -44,6 +44,15 @@ export const SIGNUP_MUTATION = gql`
     }
   }
 `;
+
+export const REQUEST_PASSWORD_RESET = gql`
+  mutation REQUEST_PASSWORD_RESET($email: String!) {
+    sendUserPasswordResetLink(email: $email) {
+      code
+      message
+    }
+  }
+`;
 export default function useAuth() {
   const { data } = useQuery(USER_AUTHENTICATED_QUERY);
   return {
