@@ -1,49 +1,50 @@
-import PropTypes from 'prop-types';
 import { useMutation } from '@apollo/client';
-import { useRouter } from 'next/router';
 import useForm from '../lib/useForm';
 import Form from './styles/Form';
-import { SIGNIN_MUTATION, USER_AUTHENTICATED_QUERY } from '../lib/useAuth';
+import { SIGNUP_MUTATION } from '../lib/useAuth';
 import DisplayError from './ErrorMessage';
 
-function SignIn() {
-  const router = useRouter();
-
+function SignUp() {
   const { inputs, handleChange, resetForm } = useForm({
+    name: '',
     email: '',
     password: '',
   });
 
-  const [signin, { data, error: signinError }] = useMutation(SIGNIN_MUTATION, {
+  const [signup, { data, loading, error }] = useMutation(SIGNUP_MUTATION, {
     variables: inputs,
-    refetchQueries: [{ query: USER_AUTHENTICATED_QUERY }],
   });
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    const res = await signin();
-    console.log(res);
+    await signup().catch(console.error);
     resetForm();
   };
 
-  if (
-    data?.authenticateUserWithPassword.__typename ===
-    'UserAuthenticationWithPasswordSuccess'
-  ) {
-    router.push('/');
-  }
-
-  const error =
-    data?.authenticateUserWithPassword.__typename ===
-    'UserAuthenticationWithPasswordFailure'
-      ? data?.authenticateUserWithPassword
-      : undefined;
-
   return (
     <Form method="POST" onSubmit={handleSubmit}>
-      <DisplayError error={error || signinError} />
-      <h2>Sign Into Your Account</h2>
-      <fieldset>
+      <DisplayError error={error} />
+      <h2>Sign Up for an Account</h2>
+      <fieldset disabled={loading}>
+        {data?.createUser && (
+          <p>
+            {' '}
+            Signed up with {data.createUser.email} - Please Go Ahead and Sign
+            In!
+          </p>
+        )}
+        <label htmlFor="name">
+          Name
+          <input
+            type="text"
+            name="name"
+            id="name"
+            placeholder="name"
+            value={inputs.name}
+            onChange={handleChange}
+            autoComplete="name"
+          />
+        </label>
         <label htmlFor="email">
           Email
           <input
@@ -67,12 +68,12 @@ function SignIn() {
             onChange={handleChange}
           />
         </label>
-        <button type="submit">Sign In</button>
+        <button type="submit">Sign Up</button>
       </fieldset>
     </Form>
   );
 }
 
-SignIn.propTypes = {};
+SignUp.propTypes = {};
 
-export default SignIn;
+export default SignUp;

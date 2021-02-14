@@ -2,7 +2,7 @@ import styled from 'styled-components';
 
 const PaginationStyles = styled.div`
   text-align: center;
-  display: inline-grid;
+  display: grid;
   grid-template-columns: repeat(4, auto);
   align-items: stretch;
   justify-content: center;
