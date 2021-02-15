@@ -5,5 +5,7 @@
     "titleBar.activeBackground": "#FFC600",
     "titleBar.inactiveBackground": "#FFC600CC"
   },
-  "editor.formatOnSave": true
+  "editor.formatOnSave": true,
+  "editor.suggest.snippetsPreventQuickSuggestions": false,
+  "emmet.showSuggestionsAsSnippets": true
 }

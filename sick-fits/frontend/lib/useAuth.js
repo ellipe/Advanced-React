@@ -8,6 +8,21 @@ export const USER_AUTHENTICATED_QUERY = gql`
         id
         name
         email
+        cart {
+          id
+          quantity
+          product {
+            id
+            price
+            name
+            description
+            photo {
+              image {
+                publicUrlTransformed
+              }
+            }
+          }
+        }
       }
     }
   }
@@ -48,6 +63,23 @@ export const SIGNUP_MUTATION = gql`
 export const REQUEST_PASSWORD_RESET = gql`
   mutation REQUEST_PASSWORD_RESET($email: String!) {
     sendUserPasswordResetLink(email: $email) {
+      code
+      message
+    }
+  }
+`;
+
+export const RESET_PASSWORD_MUTATION = gql`
+  mutation RESET_PASSWORD_MUTATION(
+    $email: String!
+    $password: String!
+    $token: String!
+  ) {
+    redeemUserPasswordResetToken(
+      email: $email
+      password: $password
+      token: $token
+    ) {
       code
       message
     }

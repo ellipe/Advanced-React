@@ -1,47 +1,40 @@
 import { useMutation } from '@apollo/client';
-import { useRouter } from 'next/router';
+import PropTypes from 'prop-types';
 import useForm from '../lib/useForm';
 import Form from './styles/Form';
-import { SIGNIN_MUTATION, USER_AUTHENTICATED_QUERY } from '../lib/useAuth';
+import { RESET_PASSWORD_MUTATION } from '../lib/useAuth';
 import DisplayError from './ErrorMessage';
 
-function SignIn() {
-  const router = useRouter();
-
+export default function ResetPassword({ token }) {
   const { inputs, handleChange, resetForm } = useForm({
     email: '',
     password: '',
+    token,
   });
 
-  const [signin, { data, error: signinError }] = useMutation(SIGNIN_MUTATION, {
-    variables: inputs,
-    refetchQueries: [{ query: USER_AUTHENTICATED_QUERY }],
-  });
+  const [reset, { data, loading, error: resetError }] = useMutation(
+    RESET_PASSWORD_MUTATION,
+    {
+      variables: inputs,
+    }
+  );
+
+  const error = data?.reedemUserPasswordResetToken?.code
+    ? data?.reedemUserPasswordResetToken
+    : undefined;
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    await signin();
+    await reset();
     resetForm();
   };
 
-  if (
-    data?.authenticateUserWithPassword.__typename ===
-    'UserAuthenticationWithPasswordSuccess'
-  ) {
-    router.push('/');
-  }
-
-  const error =
-    data?.authenticateUserWithPassword.__typename ===
-    'UserAuthenticationWithPasswordFailure'
-      ? data?.authenticateUserWithPassword
-      : undefined;
-
   return (
     <Form method="POST" onSubmit={handleSubmit}>
-      <DisplayError error={error || signinError} />
-      <h2>Sign Into Your Account</h2>
-      <fieldset>
+      <DisplayError error={error || resetError} />
+      <h2>Reset Your Password</h2>
+      <fieldset disabled={loading}>
+        {!error && <p>Success! Check your email for a link!</p>}
         <label htmlFor="email">
           Email
           <input
@@ -54,7 +47,7 @@ function SignIn() {
             autoComplete="email"
           />
         </label>
-        <label htmlFor="password">
+        <label htmlFor="email">
           Password
           <input
             type="password"
@@ -63,12 +56,15 @@ function SignIn() {
             placeholder="password"
             value={inputs.password}
             onChange={handleChange}
+            autoComplete="password"
           />
         </label>
-        <button type="submit">Sign In</button>
+        <button type="submit">Request Reset</button>
       </fieldset>
     </Form>
   );
 }
 
-export default SignIn;
+ResetPassword.propTypes = {
+  token: PropTypes.string.isRequired,
+};

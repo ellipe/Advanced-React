@@ -4,7 +4,7 @@ import Form from './styles/Form';
 import { REQUEST_PASSWORD_RESET } from '../lib/useAuth';
 import DisplayError from './ErrorMessage';
 
-function RequestReset() {
+export default function RequestReset() {
   const { inputs, handleChange, resetForm } = useForm({
     email: '',
   });
@@ -46,5 +46,3 @@ function RequestReset() {
 }
 
 RequestReset.propTypes = {};
-
-export default RequestReset;
