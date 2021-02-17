@@ -22,10 +22,12 @@ export default function Nav() {
           <Link href="/account">Account</Link>
         </>
       )}
-      <button type="button" onClick={openCart}>
-        My Cart
-        <CartCount count={count} />
-      </button>
+      {user && (
+        <button type="button" onClick={openCart}>
+          My Cart
+          <CartCount count={count} />
+        </button>
+      )}
       {user ? <SignOut /> : <Link href="/signin">Sign In</Link>}
     </NavStyles>
   );

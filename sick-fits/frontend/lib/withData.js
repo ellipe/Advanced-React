@@ -7,6 +7,7 @@ import { endpoint, prodEndpoint } from '../config';
 
 function createClient({ headers, initialState }) {
   return new ApolloClient({
+    ssrMode: true,
     link: ApolloLink.from([
       onError(({ graphQLErrors, networkError }) => {
         if (graphQLErrors)
