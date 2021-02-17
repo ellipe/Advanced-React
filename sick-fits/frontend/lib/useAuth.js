@@ -1,8 +1,8 @@
 import gql from 'graphql-tag';
 import { useQuery } from '@apollo/client';
 
-export const USER_AUTHENTICATED_QUERY = gql`
-  query USER_AUTHENTICATED_QUERY {
+export const CURRENT_USER_QUERY = gql`
+  query CURRENT_USER_QUERY {
     authenticatedItem {
       ... on User {
         id
@@ -86,7 +86,7 @@ export const RESET_PASSWORD_MUTATION = gql`
   }
 `;
 export default function useAuth() {
-  const { data } = useQuery(USER_AUTHENTICATED_QUERY);
+  const { data } = useQuery(CURRENT_USER_QUERY);
   return {
     user: data?.authenticatedItem,
   };

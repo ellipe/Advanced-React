@@ -2,7 +2,7 @@ import { useMutation } from '@apollo/client';
 import { useRouter } from 'next/router';
 import useForm from '../lib/useForm';
 import Form from './styles/Form';
-import { SIGNIN_MUTATION, USER_AUTHENTICATED_QUERY } from '../lib/useAuth';
+import { SIGNIN_MUTATION, CURRENT_USER_QUERY } from '../lib/useAuth';
 import DisplayError from './ErrorMessage';
 
 function SignIn() {
@@ -15,7 +15,7 @@ function SignIn() {
 
   const [signin, { data, error: signinError }] = useMutation(SIGNIN_MUTATION, {
     variables: inputs,
-    refetchQueries: [{ query: USER_AUTHENTICATED_QUERY }],
+    refetchQueries: [{ query: CURRENT_USER_QUERY }],
   });
 
   const handleSubmit = async (e) => {

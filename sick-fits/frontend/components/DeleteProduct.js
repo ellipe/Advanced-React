@@ -8,9 +8,9 @@ const ButtonStyles = styled.button`
   cursor: pointer;
   outline: none;
   border: 0;
-  border-bottom: 3px solid transparent;
+  border-bottom: 2px solid transparent;
   &:hover {
-    border-bottom: 3px solid red;
+    border-bottom: 2px solid red;
   }
 `;
 

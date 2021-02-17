@@ -1,6 +1,6 @@
 import gql from 'graphql-tag';
 import { useMutation } from '@apollo/client';
-import { USER_AUTHENTICATED_QUERY } from '../lib/useAuth';
+import { CURRENT_USER_QUERY } from '../lib/useAuth';
 
 const SIGN_OUT_MUTATION = gql`
   mutation {
@@ -12,7 +12,7 @@ export default function SignOut() {
   const [signout] = useMutation(SIGN_OUT_MUTATION, {
     refetchQueries: [
       {
-        query: USER_AUTHENTICATED_QUERY,
+        query: CURRENT_USER_QUERY,
       },
     ],
   });

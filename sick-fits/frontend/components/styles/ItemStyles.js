@@ -29,10 +29,11 @@ const ItemStyles = styled.div`
     background: var(--lightGray);
     & > * {
       background: white;
-      /* This is not allowing me to set border in a button */
-      /* border: 0; */
+      cursor: pointer;
       font-size: 1.2rem;
       padding: 1rem;
+      border: 0;
+      border-bottom: 2px solid transparent;
     }
   }
 `;

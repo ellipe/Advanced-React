@@ -6,6 +6,7 @@ import PriceTag from './styles/PriceTag';
 import formatMoney from '../lib/formatMoney';
 import DeleteProduct from './DeleteProduct';
 import useAuth from '../lib/useAuth';
+import AddToCart from './AddToCart';
 
 export default function Product({ product }) {
   const { user } = useAuth();
@@ -31,6 +32,7 @@ export default function Product({ product }) {
           >
             Edit Me
           </Link>
+          <AddToCart id={product.id} />
           <DeleteProduct id={product.id}>Delete</DeleteProduct>
         </div>
       )}
