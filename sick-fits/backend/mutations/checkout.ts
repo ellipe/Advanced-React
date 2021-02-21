@@ -72,8 +72,6 @@ export default async function checkout(
       throw new Error(err.message);
     });
 
-  console.log(cartItems);
-
   // 4. Transform CartItem to OrderItems
   const orderItems = cartItems.map((cartItem) => {
     const orderItem = {
