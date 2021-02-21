@@ -8,7 +8,7 @@ import CartCount from './CartCount';
 export default function Nav() {
   const { user } = useAuth();
   const count = user?.cart.reduce(
-    (tally, cartItem) => tally + cartItem.quantity,
+    (tally, cartItem) => tally + (cartItem.product ? cartItem.quantity : 0),
     0
   );
   const { openCart } = useCart();

@@ -8,7 +8,14 @@ import {
 import { loadStripe } from '@stripe/stripe-js';
 import nProgress from 'nprogress';
 import styled from 'styled-components';
+import gql from 'graphql-tag';
+import { useMutation } from '@apollo/client';
+import { useRouter } from 'next/router';
 import SickButton from './styles/SickButton';
+import { useCart } from '../lib/useCart';
+import { CURRENT_USER_QUERY } from '../lib/useAuth';
+
+const stipeLib = loadStripe(process.env.NEXT_PUBLIC_STRIPE_KEY);
 
 const CheckoutFormStyles = styled.form`
   box-shadow: 0 1px 2px 2px rgba(0, 0, 0, 0.04);
@@ -19,13 +26,34 @@ const CheckoutFormStyles = styled.form`
   grid-gap: 1rem;
 `;
 
-const stipeLib = loadStripe(process.env.NEXT_PUBLIC_STRIPE_KEY);
+const CREATE_ORDER_MUTATION = gql`
+  mutation CREATE_ORDER_MUTATION($token: String!) {
+    checkout(token: $token) {
+      id
+      charge
+      total
+      items {
+        id
+        name
+      }
+    }
+  }
+`;
 
 function CheckoutForm() {
   const [error, setError] = useState();
   const [loading, setLoading] = useState(false);
   const stripe = useStripe();
   const elements = useElements();
+  const [checkout, { error: mutationError }] = useMutation(
+    CREATE_ORDER_MUTATION,
+    {
+      refetchQueries: [{ query: CURRENT_USER_QUERY }],
+    }
+  );
+
+  const { closeCart } = useCart();
+  const router = useRouter();
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -50,16 +78,30 @@ function CheckoutForm() {
       card: cardElement,
     });
 
+    // handle erros
     if (error) {
       console.log('[error]', error);
       setError(error);
-    } else {
-      console.log('[PaymentMethod]', paymentMethod);
+      return;
     }
 
+    // send payment token to backend service
+    const order = await checkout({
+      variables: {
+        token: paymentMethod.id,
+      },
+    });
     // finish page transition.
     nProgress.done();
     setLoading(false);
+
+    closeCart();
+    router.push({
+      pathname: '/order/[id]',
+      query: {
+        id: order.data.checkout.id,
+      },
+    });
   };
 
   return (
